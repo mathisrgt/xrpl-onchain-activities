@@ -64,21 +64,22 @@ Where:
 
 ---
 
-## 🧑‍🏫 Adding a New Activity Type
+## 🧑‍🏫 Adding a New Content Type
 
 1. Create a route file under `routes/` → `src/routes/trustline.route.ts`
-2. Implement `content`, `get` and `status` in the controller
+2. Implement `create`, `text` and `status` in the controller
 3. Register the route in `index.ts`
 4. Return content data from `/[type]/text` with the standard format:
 
 ```ts
 {
-  title: 'Activity Title',
+  title: 'Content Title',
   description: 'One-liner description',
   sections: [
     { type: 'title', value: 'Step 1' },
     { type: 'body', value: 'Follow the memo sent to your wallet.' },
-    { type: 'link', value: 'https://xrpl.org' }
+    { type: 'link', value: 'https://xrpl.org' },
+    { type: 'code', value: 'const helloWorld = `Hello World`;' },
   ]
 }
 ```
