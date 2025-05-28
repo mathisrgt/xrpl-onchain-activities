@@ -1,6 +1,6 @@
-# 🎮 XRPL On-chain Activities API
+# 🎮 XRPL On-chain Content API
 
-This repository contains the backend server used to generate, manage, and monitor **on-chain activities** (e.g. \`memo\`, \`trustline\`, \`multisig\`, etc.) on the XRP Ledger for the Serious Game, by XRPL Commons.
+This repository contains the backend server used to generate, manage, and monitor **on-chain content** (e.g. \`memo\`, \`trustline\`, \`multisig\`, etc.) on the XRP Ledger for the Serious Game, by XRPL Commons.
 
 ---
 
