@@ -1,5 +1,5 @@
 {
-  "name": "xrpl-onchain-activities",
+  "name": "xrpl-onchain-content",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
