@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import { generate as generateMemoActivity } from '../services/memo.service'
-import { GeneratedMemoOnchainContent } from '../types/content.type'
+import { generate as generateMemoOnchainContent, watch as watchMemoOnchainContent } from '../services/memo.service'
+import { GeneratedMemoOnchainContent, WatchResultMemoOnchainContent } from '../types/content.type'
 
 export async function create(req: Request, res: Response): Promise<void> {
     res.status(400).json({
@@ -55,19 +55,37 @@ export async function generate(req: Request, res: Response, next: NextFunction):
             })
         }
 
-        const generatedMemoOnchainContent: GeneratedMemoOnchainContent = await generateMemoActivity(username)
+        const generatedMemoOnchainContent: GeneratedMemoOnchainContent = await generateMemoOnchainContent(username)
 
         res.status(201).json({
             success: true,
             data: generatedMemoOnchainContent
         })
     } catch (error) {
-        console.error('[MemoController][generate] Error:', error)
+        console.error('[memo][controller][generate] Error:', error)
         next(error) // Pass to Express global error handler
     }
 }
 
-export async function watch(req: Request, res: Response): Promise<void> {
-    // TODO
-    // use the data stored in the database to watch periodically the transactions send by students wallets and update if necessary
+export async function watch(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const { username, studentClassicAddress, solutionClassicAddress } = req.body
+
+        if (!username || !studentClassicAddress || !solutionClassicAddress) {
+            res.status(400).json({
+                success: false,
+                error: 'Missing or invalid params in request body'
+            })
+        }
+
+        const watchResult: WatchResultMemoOnchainContent = await watchMemoOnchainContent(username, studentClassicAddress, solutionClassicAddress);
+
+        res.status(201).json({
+            success: true,
+            data: watchResult
+        })
+    } catch (error) {
+        console.error('[memo][controller][watch] Error:', error)
+        next(error) // Pass to Express global error handler
+    }
 }

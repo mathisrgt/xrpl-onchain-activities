@@ -1,6 +1,6 @@
 import { Wallet } from "./wallet.type";
 
-export interface GeneratedMemoOnchainContent {
+export type GeneratedMemoOnchainContent = {
     studentWallet: Wallet;
     metaData: {
         memoSent: {
@@ -13,3 +13,7 @@ export interface GeneratedMemoOnchainContent {
         solutionWallet: Wallet;
     };
 }
+
+export type WatchResultMemoOnchainContent = 
+    | { username: string; found: true; txHash: string }
+    | { username: string; found: false; }

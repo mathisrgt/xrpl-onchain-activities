@@ -2,7 +2,7 @@
 import chalk from 'chalk'
 import { Client, Wallet, xrpToDrops, convertStringToHex } from 'xrpl'
 
-import { GeneratedMemoOnchainContent } from '../types/content.type';
+import { GeneratedMemoOnchainContent, WatchResultMemoOnchainContent } from '../types/content.type';
 
 export async function generate(username: string): Promise<GeneratedMemoOnchainContent> {
     console.log(chalk.bgWhite("-- SERVICE - GENERATE MEMO --"));
@@ -60,4 +60,9 @@ export async function generate(username: string): Promise<GeneratedMemoOnchainCo
     };
                 
     return generatedMemoOnchainContent;
+}
+
+export async function watch(username: string, studentClassicAddress: string, solutionClassicAddress: string): Promise<WatchResultMemoOnchainContent> {
+    // TODO
+    return ;
 }
