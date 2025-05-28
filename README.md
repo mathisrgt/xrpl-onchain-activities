@@ -37,8 +37,8 @@ Where:
 
 | Method | Endpoint                  | Description                                  |
 |--------|---------------------------|----------------------------------------------|
-| GET    | `/[type]/content`         | Returns static instructional content for the front-end (title, body, steps, etc.) |
-| GET    | `/[type]/get`             | Returns a summary of all current activities of this type |
+| GET    | `/[type]/create`            | Create a new content for non-interactive onchain content |
+| GET    | `/[type]/text`            | Returns static instructional content for the front-end (title, body, steps, etc.) |
 | GET    | `/[type]/status?id=`      | Returns user-specific activity progress (optional) |
 
 > 💡 Each activity type should **at minimum** implement these three endpoints.
@@ -60,7 +60,7 @@ Where:
 |------------------------|----------------------------------------|
 | `POST /memo/generate`  | Create memo activity for students       |
 | `POST /memo/watch`     | Check XRPL transactions for completion  |
-| `GET  /memo/content`   | Instructional content (title + steps)   |
+| `GET  /memo/text`   | Instructional content (title + steps)   |
 
 ---
 
@@ -69,7 +69,7 @@ Where:
 1. Create a route file under `routes/` → `src/routes/trustline.route.ts`
 2. Implement `content`, `get` and `status` in the controller
 3. Register the route in `index.ts`
-4. Return content data from `/[type]/content` with the standard format:
+4. Return content data from `/[type]/text` with the standard format:
 
 ```ts
 {

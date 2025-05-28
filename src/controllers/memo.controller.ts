@@ -9,29 +9,6 @@ export async function create(req: Request, res: Response): Promise<void> {
     })
 }
 
-export async function generate(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-        const { username } = req.body
-
-        if (!username || typeof username !== 'string') {
-            res.status(400).json({
-                success: false,
-                error: 'Missing or invalid "username" in request body'
-            })
-        }
-
-        const generatedMemoOnchainContent: GeneratedMemoOnchainContent = await generateMemoActivity(username)
-
-        res.status(201).json({
-            success: true,
-            data: generatedMemoOnchainContent
-        })
-    } catch (error) {
-        console.error('[MemoController][generate] Error:', error)
-        next(error) // Pass to Express global error handler
-    }
-}
-
 export async function text(req: Request, res: Response): Promise<void> {
     // TODO: To store in the database and retrieve
     const memoText = {
@@ -56,9 +33,41 @@ export async function text(req: Request, res: Response): Promise<void> {
             }
         ]
     }
-    
+
     res.status(200).json({
         success: true,
         data: memoText
     })
+}
+
+export async function status(req: Request, res: Response): Promise<void> {
+    // TODO
+}
+
+export async function generate(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const { username } = req.body
+
+        if (!username || typeof username !== 'string') {
+            res.status(400).json({
+                success: false,
+                error: 'Missing or invalid "username" in request body'
+            })
+        }
+
+        const generatedMemoOnchainContent: GeneratedMemoOnchainContent = await generateMemoActivity(username)
+
+        res.status(201).json({
+            success: true,
+            data: generatedMemoOnchainContent
+        })
+    } catch (error) {
+        console.error('[MemoController][generate] Error:', error)
+        next(error) // Pass to Express global error handler
+    }
+}
+
+export async function watch(req: Request, res: Response): Promise<void> {
+    // TODO
+    // use the data stored in the database to watch periodically the transactions send by students wallets and update if necessary
 }
