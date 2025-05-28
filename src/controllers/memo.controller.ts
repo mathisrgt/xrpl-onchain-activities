@@ -1,0 +1,33 @@
+import { Request, Response, NextFunction } from 'express'
+import { generate as generateMemoActivity } from '../services/memo.service'
+import { GeneratedMemoOnchainContent } from '../types/content.type'
+
+export async function create(req: Request, res: Response): Promise<void> {
+    res.status(400).json({
+        success: false,
+        error: 'This endpoint is not available for interactive activities. To create a new interactive activity, please create a pull request at github.com/xrpl-commons/onchain-content'
+    })
+}
+
+export async function generate(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+        const { username } = req.body
+
+        if (!username || typeof username !== 'string') {
+            res.status(400).json({
+                success: false,
+                error: 'Missing or invalid "username" in request body'
+            })
+        }
+
+        const generatedMemoOnchainContent: GeneratedMemoOnchainContent = await generateMemoActivity(username)
+
+        res.status(201).json({
+            success: true,
+            data: generatedMemoOnchainContent
+        })
+    } catch (error) {
+        console.error('[MemoController][generate] Error:', error)
+        next(error) // Pass to Express global error handler
+    }
+}

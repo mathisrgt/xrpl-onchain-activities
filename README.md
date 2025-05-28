@@ -104,5 +104,7 @@ npm start
 Hit the API:
 
 ```bash
-curl -X POST http://localhost:3000/memo/generate
+curl -X POST http://localhost:3000/memo/generate \
+  -H "Content-Type: application/json" \
+  -d '{"username":"user1"}'
 ```

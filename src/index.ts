@@ -1,14 +1,10 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
+import memoRoutes from './routes/memo.route'
+import { PORT } from './environment'
 
 const app = express()
-const PORT = process.env.PORT || 3000
-
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello from Express + TypeScript!')
-})
+app.use('/memo', memoRoutes)
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`)
-})
+app.listen(PORT, () => console.log(`🟢 API running at http://localhost:${PORT}`))
