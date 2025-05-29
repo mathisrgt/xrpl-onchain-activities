@@ -58,11 +58,45 @@ export async function generate(username: string): Promise<GeneratedMemoOnchainCo
             }
         }
     };
-                
+
     return generatedMemoOnchainContent;
 }
 
 export async function watch(username: string, studentClassicAddress: string, solutionClassicAddress: string): Promise<WatchResultMemoOnchainContent> {
-    // TODO
-    return ;
+    console.log(chalk.bgWhite("-- SERVICE - WATCH MEMO --"));
+
+    const client = new Client("wss://s.devnet.rippletest.net:51233/");
+    await client.connect();
+
+    const transactions = await client.request({
+        command: "account_tx",
+        account: solutionClassicAddress,
+        ledger_index_min: -1,
+        ledger_index_max: -1,
+        binary: false,
+        limit: 5,
+        forward: false,
+    });
+
+    const txs = transactions.result.transactions;
+
+    if (txs && txs.length > 0) {
+        const found = txs.find(tx => {
+            return (
+                tx.tx_json?.TransactionType === "Payment" &&
+                tx.tx_json.Account === studentClassicAddress &&
+                tx.tx_json.Destination === solutionClassicAddress
+            );
+        });
+
+        await client.disconnect();
+
+        if (found && found.hash) {
+            console.log(chalk.green(`✅ Found incoming payment to solution wallet for student "${username}"`));    
+            return { username: username, found: true, txHash: found.hash }
+        } else {
+            console.log(chalk.green(`❌ No incoming payment found to solution wallet for student "${username}"`));
+        }
+    }
+    return { username: username, found: false }
 }
