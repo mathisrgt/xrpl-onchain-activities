@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { generate as generateMemoOnchainContent, watch as watchMemoOnchainContent } from '../services/memo.service'
+import { generate as generateMemoOnchainContent, watch as watchMemoOnchainContent, text as textMemoOnchainContent } from '../services/memo.service'
 import { GeneratedMemoOnchainContent, WatchResultMemoOnchainContent } from '../types/content.type'
 
 export async function create(req: Request, res: Response): Promise<void> {
@@ -10,29 +10,7 @@ export async function create(req: Request, res: Response): Promise<void> {
 }
 
 export async function text(req: Request, res: Response): Promise<void> {
-    // TODO: To store in the database and retrieve
-    const memoText = {
-        title: 'Memo Activity',
-        description: 'This activity allows you to send a memo to a student wallet on the XRPL.',
-        sections: [
-            {
-                type: 'title',
-                value: 'Memo Activity'
-            },
-            {
-                type: 'body',
-                value: 'In this activity, you will send a memo to a student wallet on the XRPL. The memo will contain information about the transaction and the student wallet.'
-            },
-            {
-                type: 'link',
-                value: 'https://xrpl.org/memos.html'
-            },
-            {
-                type: 'code',
-                value: 'const memo = "Hello, this is a memo!";'
-            }
-        ]
-    }
+    const memoText = textMemoOnchainContent();
 
     res.status(200).json({
         success: true,

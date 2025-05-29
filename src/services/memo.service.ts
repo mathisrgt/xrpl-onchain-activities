@@ -1,8 +1,19 @@
-// src/services/memo.service.ts
 import chalk from 'chalk'
+import fs from 'fs'
+import path from 'path'
 import { Client, Wallet, xrpToDrops, convertStringToHex } from 'xrpl'
-
 import { GeneratedMemoOnchainContent, WatchResultMemoOnchainContent } from '../types/content.type';
+import { ContentText } from '../types/text.type';
+
+export function text(): ContentText {
+    console.log(chalk.bgWhite("-- SERVICE - TEXT MEMO --"));
+
+    const contentPath = path.join(__dirname, '..', 'texts', 'memo-text.json')
+    const raw = fs.readFileSync(contentPath, 'utf-8')
+
+    console.log(chalk.green(`✅ Memo text fetch successfully!`));
+    return JSON.parse(raw)
+}
 
 export async function generate(username: string): Promise<GeneratedMemoOnchainContent> {
     console.log(chalk.bgWhite("-- SERVICE - GENERATE MEMO --"));
@@ -92,7 +103,7 @@ export async function watch(username: string, studentClassicAddress: string, sol
         await client.disconnect();
 
         if (found && found.hash) {
-            console.log(chalk.green(`✅ Found incoming payment to solution wallet for student "${username}"`));    
+            console.log(chalk.green(`✅ Found incoming payment to solution wallet for student "${username}"`));
             return { username: username, found: true, txHash: found.hash }
         } else {
             console.log(chalk.green(`❌ No incoming payment found to solution wallet for student "${username}"`));

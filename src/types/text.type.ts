@@ -5,7 +5,7 @@ export enum TextType {
     code = 'Code'
 }
 
-export interface contentText {
+export type ContentText = {
     title: string;
     description: string;
     sections: { type: TextType, value: string }[]
