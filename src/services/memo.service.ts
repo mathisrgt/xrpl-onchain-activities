@@ -1,8 +1,8 @@
 import chalk from 'chalk'
-import { Client, Wallet, xrpToDrops, convertStringToHex } from 'xrpl'
+import { Client, xrpToDrops, convertStringToHex } from 'xrpl'
 import { GenerateMemoResponse, WatchMemoResponse } from '../types/content.type';
 
-export async function generate(username: string): Promise<GenerateMemoResponse> {
+export async function generate(): Promise<GenerateMemoResponse> {
     console.log(chalk.bgWhite("-- SERVICE - GENERATE MEMO --"));
 
     const client = new Client("wss://s.devnet.rippletest.net:51233/");
@@ -38,7 +38,6 @@ export async function generate(username: string): Promise<GenerateMemoResponse> 
 
     const generateMemoResponse: GenerateMemoResponse = {
         studentWallet: {
-            username,
             classicAddress: studentWallet.classicAddress,
             prvKey: studentWallet.privateKey
         },
@@ -60,7 +59,7 @@ export async function generate(username: string): Promise<GenerateMemoResponse> 
     return generateMemoResponse;
 }
 
-export async function watch(username: string, studentClassicAddress: string, solutionClassicAddress: string): Promise<WatchMemoResponse> {
+export async function watch(studentClassicAddress: string, solutionClassicAddress: string): Promise<WatchMemoResponse> {
     console.log(chalk.bgWhite("-- SERVICE - WATCH MEMO --"));
 
     const client = new Client("wss://s.devnet.rippletest.net:51233/");
@@ -90,11 +89,11 @@ export async function watch(username: string, studentClassicAddress: string, sol
         await client.disconnect();
 
         if (found && found.hash) {
-            console.log(chalk.green(`✅ Found incoming payment to solution wallet for student "${username}"`));
-            return { username: username, found: true, txHash: found.hash }
+            console.log(chalk.green(`✅ Found incoming payment to solution wallet"`));
+            return { found: true, txHash: found.hash }
         } else {
-            console.log(chalk.green(`❌ No incoming payment found to solution wallet for student "${username}"`));
+            console.log(chalk.green(`❌ No incoming payment found to solution wallet`));
         }
     }
-    return { username: username, found: false }
+    return { found: false }
 }

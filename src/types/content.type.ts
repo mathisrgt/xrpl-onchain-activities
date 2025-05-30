@@ -15,5 +15,5 @@ export type GenerateMemoResponse = {
 }
 
 export type WatchMemoResponse = 
-    | { username: string; found: true; txHash: string }
-    | { username: string; found: false; }
+    | { found: true; txHash: string }
+    | { found: false; }
