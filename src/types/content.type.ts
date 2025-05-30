@@ -1,6 +1,6 @@
 import { Wallet } from "./wallet.type";
 
-export type GeneratedMemoOnchainContent = {
+export type GenerateMemoResponse = {
     studentWallet: Wallet;
     metaData: {
         memoSent: {
@@ -14,6 +14,6 @@ export type GeneratedMemoOnchainContent = {
     };
 }
 
-export type WatchResultMemoOnchainContent = 
+export type WatchMemoResponse = 
     | { username: string; found: true; txHash: string }
     | { username: string; found: false; }

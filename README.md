@@ -1,6 +1,6 @@
 # 🎮 XRPL On-chain Content API
 
-This repository contains the backend server used to generate, manage, and monitor **on-chain content** (e.g. \`memo\`, \`trustline\`, \`multisig\`, etc.) on the XRP Ledger for the Serious Game, by XRPL Commons.
+This repository contains the backend server used to generate and monitor **on-chain content** (e.g. \`memo\`, \`trustline\`, \`multisig\`, etc.) on the XRP Ledger for the Serious Game, by XRPL Commons.
 
 ---
 
@@ -33,24 +33,12 @@ Where:
 
 ---
 
-## 🧪 Core Endpoints (for all activity types)
+## 🧪 Core Endpoints
 
 | Method | Endpoint                  | Description                                  |
 |--------|---------------------------|----------------------------------------------|
-| GET    | `/[type]/create`            | Create a new content for non-interactive onchain content |
-| GET    | `/[type]/text`            | Returns static instructional content for the front-end (title, body, steps, etc.) |
-| GET    | `/[type]/status?id=`      | Returns user-specific activity progress (optional) |
-
-> 💡 Each activity type should **at minimum** implement these three endpoints.
-
----
-
-## 📄 Optional Routes (for interactive on-chain activities)
-
-| Method | Endpoint                  | Description                                  |
-|--------|---------------------------|----------------------------------------------|
-| POST   | `/[type]/generate`        | Generates a new activity and all wallet setup for a list of students |
-| POST   | `/[type]/watch`           | Runs the activity watcher to check for task completion |
+| POST   | `/[type]/generate`        | Generates a new instance for a user |
+| POST   | `/[type]/watch`           | Runs the watcher to check for task completion |
 
 ---
 
@@ -60,29 +48,14 @@ Where:
 |------------------------|----------------------------------------|
 | `POST /memo/generate`  | Create memo activity for students       |
 | `POST /memo/watch`     | Check XRPL transactions for completion  |
-| `GET  /memo/text`   | Instructional content (title + steps)   |
 
 ---
 
-## 🧑‍🏫 Adding a New Content Type
+## 🧑‍🏫 Adding a New Onchain Content Type
 
 1. Create a route file under `routes/` → `src/routes/trustline.route.ts`
-2. Implement `create`, `text` and `status` in the controller
+2. Implement `generate` and `watch` in the controller and the logic in services
 3. Register the route in `index.ts`
-4. Return content data from `/[type]/text` with the standard format:
-
-```ts
-{
-  title: 'Content Title',
-  description: 'One-liner description',
-  sections: [
-    { type: 'title', value: 'Step 1' },
-    { type: 'body', value: 'Follow the memo sent to your wallet.' },
-    { type: 'link', value: 'https://xrpl.org' },
-    { type: 'code', value: 'const helloWorld = `Hello World`;' },
-  ]
-}
-```
 
 ---
 

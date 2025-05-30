@@ -1,21 +1,8 @@
 import chalk from 'chalk'
-import fs from 'fs'
-import path from 'path'
 import { Client, Wallet, xrpToDrops, convertStringToHex } from 'xrpl'
-import { GeneratedMemoOnchainContent, WatchResultMemoOnchainContent } from '../types/content.type';
-import { ContentText } from '../types/text.type';
+import { GenerateMemoResponse, WatchMemoResponse } from '../types/content.type';
 
-export function text(): ContentText {
-    console.log(chalk.bgWhite("-- SERVICE - TEXT MEMO --"));
-
-    const contentPath = path.join(__dirname, '..', 'texts', 'memo-text.json')
-    const raw = fs.readFileSync(contentPath, 'utf-8')
-
-    console.log(chalk.green(`✅ Memo text fetch successfully!`));
-    return JSON.parse(raw)
-}
-
-export async function generate(username: string): Promise<GeneratedMemoOnchainContent> {
+export async function generate(username: string): Promise<GenerateMemoResponse> {
     console.log(chalk.bgWhite("-- SERVICE - GENERATE MEMO --"));
 
     const client = new Client("wss://s.devnet.rippletest.net:51233/");
@@ -49,7 +36,7 @@ export async function generate(username: string): Promise<GeneratedMemoOnchainCo
 
     await client.disconnect();
 
-    const generatedMemoOnchainContent: GeneratedMemoOnchainContent = {
+    const generateMemoResponse: GenerateMemoResponse = {
         studentWallet: {
             username,
             classicAddress: studentWallet.classicAddress,
@@ -70,10 +57,10 @@ export async function generate(username: string): Promise<GeneratedMemoOnchainCo
         }
     };
 
-    return generatedMemoOnchainContent;
+    return generateMemoResponse;
 }
 
-export async function watch(username: string, studentClassicAddress: string, solutionClassicAddress: string): Promise<WatchResultMemoOnchainContent> {
+export async function watch(username: string, studentClassicAddress: string, solutionClassicAddress: string): Promise<WatchMemoResponse> {
     console.log(chalk.bgWhite("-- SERVICE - WATCH MEMO --"));
 
     const client = new Client("wss://s.devnet.rippletest.net:51233/");
